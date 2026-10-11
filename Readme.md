@@ -1,6 +1,10 @@
 # VidStream
 
-VidStream is a full-stack video streaming platform inspired by YouTube. It allows users to sign up, upload videos, subscribe to creators, like and comment on content, search videos, and manage their profiles with a responsive and intuitive interface.
+VidStream is a full-stack video streaming platform inspired by YouTube. It allows users to sign up, upload videos, subscribe to creators, like and comment on content, search videos, and manage their channels and watch history in a smooth streaming experience.
+
+## Why VidStream?
+
+This project is designed to mimic the core experience of a modern video-sharing platform while keeping the architecture practical and beginner-friendly. It combines a scalable Node.js backend, a responsive React frontend, and cloud-based media storage to deliver a full end-to-end application that showcases real-world full-stack development patterns.
 
 ## System Design
 
@@ -31,6 +35,20 @@ flowchart LR
 - Search and watch history tracking
 - OTP-based password reset via email
 - Dockerized deployment with Nginx load balancing
+
+## Project Structure
+
+```text
+VidStream/
+├── Backend/          # Express API and business logic
+├── frontend/         # React + Vite frontend
+├── postman/          # API collection for testing
+├── docker-compose.yml
+├── nginx.conf
+├── .env.sample
+├── Readme.md
+└── LICENSE
+```
 
 ## Tech Stack
 
