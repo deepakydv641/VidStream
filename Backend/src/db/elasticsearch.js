@@ -1,8 +1,12 @@
 // config/initElastic.js
 
 import client from "../utils/elasticsearch.js";
+import { isElasticEnabled } from "../utils/elasticsearch.js";
 
 export const initElastic = async () => {
+    if (!isElasticEnabled() || !client) {
+        return;
+    }
 
     try {
         const indexName = "videos";
@@ -19,11 +23,9 @@ export const initElastic = async () => {
                     }
                 }
             });
-
-        } else {
-            // Index already exists
+            console.log('✓ Elasticsearch index created');
         }
     } catch (err) {
-        console.log('error in initElastic:', err.message);
+        console.log('⚠️  Elasticsearch initialization failed');
     }
 };

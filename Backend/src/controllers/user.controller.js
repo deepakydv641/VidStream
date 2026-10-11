@@ -93,7 +93,6 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
     // Step 1) Get the data from req.body
-    console.log("loginUser function called")
     const { email, username, password } = req.body
 
     // Step 2) Check if either username or email is provided
@@ -318,7 +317,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
 const updateAvatar = asyncHandler(async (req, res) => {
 
     // Taking the Input from the user taking the path of the file from the req.files
-    const { avatarLocalPath } = req.files?.path
+    const avatarLocalPath = req.files?.avatar?.[0]?.path
 
     if (!avatarLocalPath) {
         throw new ApiError(400, "avatar is required")
@@ -358,7 +357,7 @@ const updateAvatar = asyncHandler(async (req, res) => {
 const updateCoverImage = asyncHandler(async (req, res) => {
 
     // Taking the Input from the user taking the path of the file from the req.files
-    const { CoverImageLocalPath } = req.files?.path
+    const CoverImageLocalPath = req.files?.coverImage?.[0]?.path
 
     if (!CoverImageLocalPath) {
         throw new ApiError(400, "CoverImage is required")

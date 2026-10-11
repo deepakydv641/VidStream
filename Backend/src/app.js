@@ -18,6 +18,7 @@ const app = express();
 
 
 const port = process.env.PORT || 8000;
+
 app.use(cors({
     origin:true,
     credentials:true
@@ -28,7 +29,7 @@ app.use(express.json({ limit: "16kb" }))
 app.use(express.urlencoded({ extended: true, limit: "16kb" }))
 app.use(express.static("public"))
 app.use(cookieParser())
-app.use("/api/v1",rateLimiter)  // used for all routes under /api/v1  to avoid to count the images requests it was doing before
+app.use("/api/v1", rateLimiter)  // used for all routes under /api/v1  to avoid to count the images requests it was doing before
 app.use("/api/v1/users", router)
 app.use("/api/v1/videos", router1)
 app.use("/api/v1/subscriptions", router2)
@@ -48,10 +49,6 @@ app.use((err, req, res, next) => {
         message: err.message || "Internal Server Error",
         errors: err.errors || []
     });
-});
-
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
 });
 
 app.get("/",(req,res)=>{
