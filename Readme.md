@@ -1,6 +1,6 @@
 # VidStream
 
-VidStream is a full-stack video streaming platform inspired by YouTube. It allows users to sign up, upload videos, subscribe to creators, like and comment on content, search videos, and manage their watch history.
+VidStream is a full-stack video streaming platform inspired by YouTube. It allows users to sign up, upload videos, subscribe to creators, like and comment on content, search videos, and manage their profiles with a responsive and intuitive interface.
 
 ## System Design
 
@@ -17,19 +17,9 @@ flowchart LR
     A2 --> M
     A3 --> M
 
-    A1 --> R[(Redis)]
-    A2 --> R
-    A3 --> R
-
     A1 --> C[(Cloudinary)]
     A2 --> C
     A3 --> C
-
-    A1 --> E[(Elasticsearch)]
-    A2 --> E
-    A3 --> E
-
-    A1 --> S[SMTP Email Service]
 ```
 
 ## Features
@@ -47,9 +37,7 @@ flowchart LR
 - Frontend: React, Vite, Tailwind CSS
 - Backend: Node.js, Express.js
 - Database: MongoDB
-- Cache: Redis
 - Media Storage: Cloudinary
-- Search: Elasticsearch
 - Deployment: Docker, Nginx
 
 ## Quick Start
@@ -96,8 +84,6 @@ REFRESH_TOKEN_SECRET=your_refresh_token_secret
 EMAIL=your_email@gmail.com
 EMAIL_PASS=your_gmail_app_password
 ```
-
-Redis and Elasticsearch are optional. If they are not configured, the app continues to run in a degraded mode.
 
 ## API Overview
 
