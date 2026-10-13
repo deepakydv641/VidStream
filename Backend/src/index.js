@@ -8,7 +8,7 @@ dotenv.config();
 
 import ConnectDB from "./db/index.js";
 import app from "./app.js";
-import { initElastic } from "./db/elasticsearch.js";
+import initElastic from "./db/elasticsearch.js";
 
 dns.setDefaultResultOrder('ipv4first');
 

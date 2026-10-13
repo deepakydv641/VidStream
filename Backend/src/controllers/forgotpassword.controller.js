@@ -7,9 +7,8 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { Like } from "../models/like.model.js"
 import { Comment } from "../models/comment.model.js";
 import { Tweet } from "../models/tweet.model.js";
-import { redisSet, redisGet } from "../db/redis.js";
 import { sendMail } from "./mailer.controller.js";
-import { redisClient } from "../db/redis.js";
+import redisClient from "../db/redis.js";
 
 
 const generateOtp = () => {
