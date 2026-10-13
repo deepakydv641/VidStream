@@ -1,82 +1,125 @@
 # VidStream
 
-VidStream is a full-stack video streaming platform inspired by YouTube. It allows users to sign up, upload videos, subscribe to creators, like and comment on content, search videos, and manage their channels and watch history in a smooth streaming experience.
+VidStream is a full-stack video streaming platform inspired by YouTube. It allows users to sign up, log in, upload and manage videos, subscribe to creators, interact with content through likes and comments, search for videos, and keep track of watch history.
 
-## Why VidStream?
-
-This project is designed to mimic the core experience of a modern video-sharing platform while keeping the architecture practical and beginner-friendly. It combines a scalable Node.js backend, a responsive React frontend, and cloud-based media storage to deliver a full end-to-end application that showcases real-world full-stack development patterns.
-
-## System Design
-
-```mermaid
-flowchart LR
-    U[User] --> B[Browser]
-    B --> F[React Frontend]
-    F --> N[Nginx]
-    N --> A1[Express API 1]
-    N --> A2[Express API 2]
-    N --> A3[Express API 3]
-
-    A1 --> M[(MongoDB)]
-    A2 --> M
-    A3 --> M
-
-    A1 --> C[(Cloudinary)]
-    A2 --> C
-    A3 --> C
-```
+The project combines a Node.js/Express backend with a React + Vite frontend, MongoDB for persistence, Cloudinary for media storage, and Redis for rate limiting and caching support.
 
 ## Features
 
-- JWT-based authentication and refresh tokens
+- User authentication with JWT access/refresh tokens
+- Registration, login, logout, and profile management
 - Video upload, update, delete, and playback
-- Subscriptions and channel profiles
-- Likes, comments, and community posts
+- Channel/profile pages and subscription system
+- Likes and comments on videos
 - Search and watch history tracking
-- OTP-based password reset via email
-- Dockerized deployment with Nginx load balancing
+- Forgot password flow with OTP verification
+- Download support for video assets
+- Dockerized deployment with Nginx
+- Responsive frontend built with React + Tailwind CSS
+
+## Tech Stack
+
+### Frontend
+- React
+- Vite
+- Tailwind CSS
+- React Router DOM
+- Axios
+- React Hot Toast
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB with Mongoose
+- Cloudinary
+- Redis
+- JWT
+- Nodemailer
+- Multer
+- CORS and rate limiting
+
+### Deployment
+- Docker
+- Docker Compose
+- Nginx
 
 ## Project Structure
 
 ```text
 VidStream/
-├── Backend/          # Express API and business logic
-├── frontend/         # React + Vite frontend
-├── postman/          # API collection for testing
+├── Backend/                 # Express API and server-side logic
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   ├── Dockerfile
+│   └── .env.docker.example
+├── frontend/                # React frontend
+│   ├── src/
+│   ├── package.json
+│   ├── vite.config.js
+│   └── tailwind.config.js
+├── postman/                 # API testing collection
 ├── docker-compose.yml
 ├── nginx.conf
 ├── .env.sample
 ├── Readme.md
-└── LICENSE
+├── LICENSE
+└── .gitignore
 ```
 
-## Tech Stack
+## Prerequisites
 
-- Frontend: React, Vite, Tailwind CSS
-- Backend: Node.js, Express.js
-- Database: MongoDB
-- Media Storage: Cloudinary
-- Deployment: Docker, Nginx
+Before running the project, make sure you have:
 
-## Quick Start
+- Node.js 18+ installed
+- MongoDB running locally or a MongoDB Atlas connection
+- Redis running locally or configured remotely
+- Cloudinary account credentials
+- Gmail or SMTP credentials for forgot-password emails
 
-### 1. Clone the project
+## Environment Variables
+
+Copy the sample environment file and update the values:
 
 ```bash
-git clone <your-repo-url>
-cd VidStream
+cp .env.sample .env
 ```
 
-### 2. Backend setup
+Example variables:
+
+```env
+MONGODB_URI=your_mongodb_uri
+PORT=8000
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+CORS_ORIGIN=*
+ACCESS_TOKEN_SECRET=your_access_token_secret
+ACCESS_TOKEN_EXPIRY=1d
+REFRESH_TOKEN_SECRET=your_refresh_token_secret
+REFRESH_TOKEN_EXPIRY=10d
+REDIS_URL=redis://localhost:6379
+EMAIL=your_email@gmail.com
+EMAIL_PASS=your_email_app_password
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=465
+```
+
+## Running the Project
+
+### 1. Backend
 
 ```bash
 cd Backend
-cp ../.env.sample .env
 npm install
 npm run dev
 ```
 
-### 3. Frontend setup
+The backend runs on:
+
+- http://localhost:8000
+
+### 2. Frontend
 
 ```bash
 cd frontend
@@ -84,45 +127,65 @@ npm install
 npm run dev
 ```
 
-- Frontend: http://localhost:3000
-- Backend: http://localhost:8000
+The frontend runs on:
 
-## Environment Variables
+- http://localhost:5173
 
-Use the sample environment file and update values for your setup:
-
-```env
-PORT=8000
-MONGODB_URI=your_mongodb_uri
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-ACCESS_TOKEN_SECRET=your_access_token_secret
-REFRESH_TOKEN_SECRET=your_refresh_token_secret
-EMAIL=your_email@gmail.com
-EMAIL_PASS=your_gmail_app_password
-```
-
-## API Overview
-
-The backend exposes REST APIs under `/api/v1` for:
-
-- Users
-- Videos
-- Subscriptions
-- Likes
-- Comments
-- Tweets
-- Search
-- Downloads
-
-## Docker
+### 3. Docker Compose
 
 ```bash
 docker compose up --build
 ```
 
-This starts the application behind Nginx with multiple backend instances for load balancing.
+This starts the app using the configured Docker setup and Nginx reverse proxy.
+
+## API Modules
+
+The backend exposes routes under `/api/v1` for:
+
+- Users
+- Videos
+- Subscriptions
+- Comments
+- Tweets
+- Likes
+- Search
+- Downloads
+
+## Common Features in Detail
+
+### Authentication
+- Sign up and sign in
+- JWT-based session handling
+- Refresh-token flow
+- Password change support
+- Forgot password and OTP verification
+
+### Video Experience
+- Upload videos and thumbnails
+- Manage your uploaded videos
+- Browse all videos
+- Update video details
+- Watch history tracking
+
+### Community Features
+- Subscribe to creators
+- View channel profiles
+- Like content
+- Comment on videos
+- Post tweets/status updates
+
+### Media & Storage
+- Cloudinary integration for asset uploads
+- Static file serving for public assets
+- Download routes for media-related actions
+
+## Development Notes
+
+- The backend uses Express and modular route/controller/service patterns.
+- The frontend is built with a Vite React app and Tailwind CSS.
+- Rate limiting is enabled for API endpoints to reduce abuse and excessive traffic.
+- Docker configuration is included for easier local and deployment setup.
 
 ## License
 
