@@ -12,6 +12,30 @@ services:
     networks:
       - vidstream-network
     restart: unless-stopped
+  
+  redis:
+    image: redis:alpine
+    container_name: redis_dev
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - vidstream-network
+    
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.1
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - vidstream-network
 
   backend1:
     build:
@@ -22,6 +46,9 @@ services:
       - ./Backend/.env
     environment:
       - PORT=8000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
     volumes:
       - ./Backend/public/temp:/app/public/temp
     networks:
@@ -37,6 +64,9 @@ services:
       - ./Backend/.env
     environment:
       - PORT=8000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
     volumes:
       - ./Backend/public/temp:/app/public/temp
     networks:
@@ -52,6 +82,9 @@ services:
       - ./Backend/.env
     environment:
       - PORT=8000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
     volumes:
       - ./Backend/public/temp:/app/public/temp
     networks:
@@ -61,3 +94,7 @@ services:
 networks:
   vidstream-network:
     driver: bridge
+
+volumes:
+  elasticsearch_data:
+    driver: local
